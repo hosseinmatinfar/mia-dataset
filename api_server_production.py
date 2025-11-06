@@ -61,14 +61,6 @@ def get_cache_key(question, language):
     content = f"{question}_{language}"
     return hashlib.md5(content.encode()).hexdigest()
 
-# Debug: Print environment info (only in production to diagnose issues)
-logger.info("🔍 DEBUG: Checking environment variables...")
-logger.info(f"🔍 DEBUG: PORT = {os.getenv('PORT', 'NOT SET')}")
-logger.info(f"🔍 DEBUG: DB_PATH = {DB_PATH}")
-logger.info(f"🔍 DEBUG: MODEL = {MODEL}")
-logger.info(f"🔍 DEBUG: OPENAI_API_KEY = {'SET (' + OPENAI_API_KEY[:20] + '...' + ')' if OPENAI_API_KEY else 'NOT SET'}")
-logger.info(f"🔍 DEBUG: All env vars starting with OPENAI: {[k for k in os.environ.keys() if 'OPENAI' in k]}")
-
 # Load vector DB once at startup
 try:
     logger.info("🔄 Loading vector database...")
