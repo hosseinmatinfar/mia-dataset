@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Vector DB
+vector_db/
+
+# Environment variables
+.env
+
+# API Keys
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.claude/
+
+# Logs
+*.log
+
+# Data files - PDFs are too large for GitHub (use Git LFS or upload manually to server)
+data/*.pdf
+*.pdf
