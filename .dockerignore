@@ -1,0 +1,48 @@
+# Ignore these to reduce Docker image size
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python cache
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (not needed in production)
+README_COMPLETE.md
+API_INTEGRATION.md
+
+# Development files
+qc.py
+setup_api.sh
+api_server.py
+
+# Large source PDFs (not needed - we have vector_db)
+*.pdf
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.example

@@ -1,5 +1,5 @@
-# Production requirements (lightweight)
-# Includes minimal dependencies for ChromaDB + embeddings
+# Production requirements (ultra-lightweight - CPU only)
+# No CUDA/GPU packages = much smaller image size
 
 # Core API
 flask==3.1.2
@@ -10,22 +10,30 @@ gunicorn==23.0.0
 # OpenAI
 openai==2.7.1
 
-# Vector DB
+# Vector DB (minimal)
 chromadb==1.3.4
 
-# LangChain
+# LangChain (minimal)
 langchain==1.0.3
 langchain-community==0.4.1
 langchain-core==1.0.3
 langchain-huggingface==1.0.1
 
-# Embeddings (required to load vector_db)
+# PyTorch CPU-only (much smaller than CUDA version)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.5.1+cpu
+
+# Sentence transformers (uses CPU torch)
 sentence-transformers==5.1.2
 
-# Utilities
+# Minimal dependencies
 python-dotenv==1.2.1
 pydantic==2.12.4
 requests==2.32.5
+numpy<2.0.0
 
-# Note: torch will be installed as dependency of sentence-transformers
-# but Railway cache should make it faster
+# Image size reduction:
+# - CPU-only torch: ~200MB (vs 2GB+ with CUDA)
+# - No NVIDIA packages
+# - Minimal dependencies
+# Expected final image: ~2-3GB (within Railway 4GB limit)
