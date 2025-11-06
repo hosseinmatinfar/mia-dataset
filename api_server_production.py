@@ -136,7 +136,7 @@ def query():
 
         data = request.json
         question = data.get('question')
-        language = data.get('language', 'en')
+        language = data.get('language', 'auto')  # Default to auto-detect
         top_k = data.get('top_k', 5)
         use_cache = data.get('use_cache', True)
 
@@ -188,9 +188,10 @@ def query():
             "zh": "Chinese",
             "ja": "Japanese",
             "ko": "Korean",
+            "auto": "the same language as the question",
         }
 
-        # Get language name, default to "the same language as the question"
+        # Get language instruction - auto-detect if not specified
         language_instruction = language_map.get(language, "the same language as the question")
 
         # Prepare system prompt
