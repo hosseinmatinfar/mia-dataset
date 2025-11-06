@@ -13,10 +13,10 @@ cmds = [
 cmds = ['echo "Using pre-built vector database - no build needed"']
 
 [start]
-cmd = 'gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 api_server_production:app'
+cmd = '. /opt/venv/bin/activate && gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 --log-level debug api_server_production:app'
 
-# Optimization notes:
-# - Removed gcc (not needed for CPU-only)
-# - Using --no-cache-dir to reduce image size
-# - Cleaning __pycache__ and .pyc files
+# Fixes:
+# - Changed api_server:app to api_server_production:app
+# - Added activate venv before gunicorn
+# - Added --log-level debug for troubleshooting
 # - Single worker with threads (memory efficient)
