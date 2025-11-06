@@ -8,11 +8,7 @@ echo ""
 echo "📦 Installing dependencies..."
 pip install -r requirements.txt
 
-# Build vector database
-echo ""
-echo "🔨 Building vector database from documents..."
-python3 dataset.py
-
 echo ""
 echo "✅ Build completed successfully!"
+echo "📦 Vector database included in repository"
 echo "🎉 Mia RAG System is ready to deploy!"

@@ -8,9 +8,6 @@ venv/
 env/
 ENV/
 
-# Vector DB
-vector_db/
-
 # Environment variables
 .env
 
