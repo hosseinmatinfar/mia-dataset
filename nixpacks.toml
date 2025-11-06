@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ['python310', 'gcc']
+
+[phases.install]
+cmds = [
+  'python -m venv --copies /opt/venv',
+  '. /opt/venv/bin/activate && pip install --no-cache-dir -r requirements_production.txt'
+]
+
+[phases.build]
+cmds = ['echo "Using pre-built vector database"']
+
+[start]
+cmd = 'gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 api_server_production:app'
