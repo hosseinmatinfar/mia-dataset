@@ -54,9 +54,10 @@ Ask Mia a question and get an AI-powered answer with sources.
 
 **Parameters:**
 - `question` (required, string): The medical/pharmaceutical question
-- `language` (optional, string): Language code for response (default: "en")
-  - Supported: `fa` (Persian), `en` (English), `ar` (Arabic), `es` (Spanish), `fr` (French), `de` (German), `tr` (Turkish), `ur` (Urdu), `ru` (Russian), `zh` (Chinese), `ja` (Japanese), `ko` (Korean)
-  - For other languages, Mia will auto-detect and respond in the same language as the question
+- `language` (optional, string): Language code for response (default: "auto" - auto-detect from question)
+  - `"auto"`: Auto-detect language from question (default)
+  - Explicit codes: `fa` (Persian), `en` (English), `ar` (Arabic), `es` (Spanish), `fr` (French), `de` (German), `tr` (Turkish), `ur` (Urdu), `ru` (Russian), `zh` (Chinese), `ja` (Japanese), `ko` (Korean)
+  - You can omit this parameter entirely and Mia will respond in the same language as your question
 - `top_k` (optional, int): Number of relevant documents to retrieve (default: 5, range: 1-10)
 - `use_cache` (optional, bool): Use cached responses for faster results (default: true)
 
@@ -134,22 +135,29 @@ class MiaAPIService {
   /// Query Mia with a medical/pharmaceutical question
   static Future<MiaResponse> query({
     required String question,
-    String language = 'fa',
+    String? language, // Null = auto-detect
     int topK = 5,
     bool useCache = true,
   }) async {
     try {
+      // Build request body
+      final Map<String, dynamic> requestBody = {
+        'question': question,
+        'top_k': topK,
+        'use_cache': useCache,
+      };
+
+      // Only include language if explicitly specified
+      if (language != null) {
+        requestBody['language'] = language;
+      }
+
       final response = await http.post(
         Uri.parse('$baseUrl/query'),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode({
-          'question': question,
-          'language': language,
-          'top_k': topK,
-          'use_cache': useCache,
-        }),
+        body: jsonEncode(requestBody),
       ).timeout(
         const Duration(seconds: 30),
         onTimeout: () => throw TimeoutException('Request timeout'),
@@ -306,7 +314,7 @@ class _MiaChatState extends State<MiaChat> {
     try {
       final response = await MiaAPIService.query(
         question: _controller.text,
-        language: 'fa', // or 'en'
+        // language: 'fa', // Optional - omit for auto-detect
         topK: 5,
       );
 
@@ -404,6 +412,33 @@ class _MiaChatState extends State<MiaChat> {
     );
   }
 }
+```
+
+---
+
+## Auto-Detect Language Examples
+
+The API automatically detects the language of your question and responds in the same language. You don't need to specify the language parameter unless you want to force a specific language.
+
+```dart
+// Auto-detect (recommended)
+// Persian question → Persian answer
+await MiaAPIService.query(question: "آسپرین چیست؟");
+
+// Arabic question → Arabic answer
+await MiaAPIService.query(question: "ما هو الأسبرين؟");
+
+// English question → English answer
+await MiaAPIService.query(question: "What is aspirin?");
+
+// Spanish question → Spanish answer
+await MiaAPIService.query(question: "¿Qué es la aspirina?");
+
+// Force specific language (override auto-detect)
+await MiaAPIService.query(
+  question: "What is aspirin?",
+  language: "fa", // Answer in Persian even though question is English
+);
 ```
 
 ---
