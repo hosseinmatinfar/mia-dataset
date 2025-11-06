@@ -174,6 +174,25 @@ def query():
             for doc in docs
         ]
 
+        # Map language codes to full names
+        language_map = {
+            "fa": "Persian/Farsi",
+            "en": "English",
+            "ar": "Arabic",
+            "es": "Spanish",
+            "fr": "French",
+            "de": "German",
+            "tr": "Turkish",
+            "ur": "Urdu",
+            "ru": "Russian",
+            "zh": "Chinese",
+            "ja": "Japanese",
+            "ko": "Korean",
+        }
+
+        # Get language name, default to "the same language as the question"
+        language_instruction = language_map.get(language, "the same language as the question")
+
         # Prepare system prompt
         system_prompt = f"""{MIA_IDENTITY}
 
@@ -184,7 +203,7 @@ Instructions:
 - If the answer is not in the context, say so clearly
 - Always maintain Mia's empathetic and safety-focused tone
 - Include the disclaimer about final decisions being made by doctors/pharmacists
-- Respond in {"Persian/Farsi" if language == "fa" else "English"}
+- Respond in {language_instruction}
 """
 
         # Prepare messages
