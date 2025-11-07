@@ -32,3 +32,6 @@ Thumbs.db
 # Data files - PDFs are too large for GitHub (use Git LFS or upload manually to server)
 data/*.pdf
 *.pdf
+
+# Vector database - built automatically, too large for GitHub
+vector_db/
